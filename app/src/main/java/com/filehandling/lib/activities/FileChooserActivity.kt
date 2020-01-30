@@ -1,6 +1,7 @@
 package com.filehandling.lib.activities
 
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -128,7 +129,9 @@ class FileChooserActivity : AppCompatActivity() {
             if (supportFragmentManager.backStackEntryCount == 1) {
                 val bundle = Bundle()
                 bundle.putSerializable("file-list", mFolderViewModel.mChosenFileList.value)
-                setResult(Activity.RESULT_OK)
+                val intent = Intent()
+                intent.putExtra("file-bundle", bundle)
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             } else
                 popFragment()
