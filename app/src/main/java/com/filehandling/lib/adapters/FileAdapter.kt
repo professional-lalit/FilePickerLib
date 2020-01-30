@@ -4,14 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.filehandling.lib.R
+import com.filehandling.lib.fragments.DirectoryFragment
+import com.filehandling.lib.models.CustomFileModel
 import com.filehandling.lib.viewholders.FileViewHolder
 import com.filehandling.lib.viewholders.ViewHolder
-import java.io.File
 
 /**
  * This file is created by Lalit N. Hajare on 1/30/2020.
  */
-class FileAdapter(private var mList: ArrayList<File>, private var mCallback: (File) -> Unit) :
+class FileAdapter(
+    private var mList: ArrayList<CustomFileModel>,
+    private var mCallback: (CustomFileModel, DirectoryFragment.Ops) -> Unit
+) :
     RecyclerView.Adapter<ViewHolder>() {
 
 
@@ -21,7 +25,7 @@ class FileAdapter(private var mList: ArrayList<File>, private var mCallback: (Fi
                 R.layout.item_file_layout,
                 null,
                 false
-            ),mCallback
+            ), mCallback
         )
     }
 

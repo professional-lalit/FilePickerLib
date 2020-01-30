@@ -3,6 +3,7 @@ package com.filehandling.lib
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.filehandling.lib.models.CustomFileModel
 import java.io.File
 
 /**
@@ -11,7 +12,8 @@ import java.io.File
 
 class FolderViewModel : ViewModel() {
 
-    var mCurrentDir = MutableLiveData<File>()
+    var mCurrentDir = MutableLiveData<CustomFileModel>()
+    val mChosenFileList = MutableLiveData<ArrayList<CustomFileModel>>()
 
     override fun onCleared() {
         super.onCleared()

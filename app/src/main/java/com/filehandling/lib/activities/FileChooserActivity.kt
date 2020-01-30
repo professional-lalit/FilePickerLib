@@ -11,10 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.filehandling.lib.FolderViewModel
 import com.filehandling.lib.R
-import com.filehandling.lib.fragments.BlankFragment
+import com.filehandling.lib.fragments.DirectoryFragment
+import com.filehandling.lib.models.CustomFileModel
 import java.io.File
-
-
 
 
 class FileChooserActivity : AppCompatActivity() {
@@ -36,7 +35,7 @@ class FileChooserActivity : AppCompatActivity() {
         fileContainer = findViewById(R.id.file_container)
         mFolderViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
             .create(FolderViewModel::class.java)
-        mFolderViewModel.mCurrentDir.postValue(rootDir)
+        mFolderViewModel.mCurrentDir.postValue(CustomFileModel(rootDir.parentFile, rootDir.name))
     }
 
 
@@ -64,12 +63,16 @@ class FileChooserActivity : AppCompatActivity() {
                 )
             } else {
                 mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
-                    addFragment(currentDir)
+                    supportActionBar?.title = currentDir.name
+                    if (currentDir.isDirectory)
+                        addFragment(currentDir)
                 })
             }
         } else {
             mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
-                addFragment(currentDir)
+                supportActionBar?.title = currentDir.name
+                if (currentDir.isDirectory)
+                    addFragment(currentDir)
             })
         }
     }
@@ -85,7 +88,9 @@ class FileChooserActivity : AppCompatActivity() {
             && grantResults[1] == PackageManager.PERMISSION_GRANTED
         ) {
             mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
-                addFragment(currentDir)
+                supportActionBar?.title = currentDir.name
+                if (currentDir.isDirectory)
+                    addFragment(currentDir)
             })
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -99,8 +104,8 @@ class FileChooserActivity : AppCompatActivity() {
         }
     }
 
-    private fun addFragment(currentDir: File) {
-        val dirFragment = BlankFragment()
+    private fun addFragment(currentDir: CustomFileModel) {
+        val dirFragment = DirectoryFragment()
         dirFragment.arguments = Bundle()
         dirFragment.arguments?.putSerializable("dir", currentDir)
         supportFragmentManager.beginTransaction()
@@ -108,7 +113,6 @@ class FileChooserActivity : AppCompatActivity() {
             .add(fileContainer.id, dirFragment)
             .addToBackStack(currentDir.name)
             .commit()
-        supportActionBar?.title = currentDir.name
     }
 
     private fun popFragment() {
