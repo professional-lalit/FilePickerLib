@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <activity
             android:name=".activities.FileChooserActivity"
             android:exported="true"/>
@@ -20,6 +21,7 @@
         <provider
             android:name=".GenericFileProvider"
             android:authorities="com.filehandling.lib.GenericFileProvider"
+            android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
