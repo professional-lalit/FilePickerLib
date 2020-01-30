@@ -18,7 +18,7 @@ import java.io.File
 const val REQ_FILE_ACCESS = 232
 
 
-class MainActivity : AppCompatActivity() {
+class FileChooserActivity : AppCompatActivity() {
 
 
     private lateinit var fileContainer: FrameLayout
