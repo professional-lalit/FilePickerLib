@@ -15,14 +15,13 @@ import com.filehandling.lib.fragments.BlankFragment
 import java.io.File
 
 
-const val REQ_FILE_ACCESS = 232
 
 
-public class FileChooserActivity : AppCompatActivity() {
-
+class FileChooserActivity : AppCompatActivity() {
+    val REQ_FILE_ACCESS = 232
     private lateinit var fileContainer: FrameLayout
     private lateinit var rootDir: File
-    public lateinit var mFolderViewModel: FolderViewModel
+    lateinit var mFolderViewModel: FolderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
