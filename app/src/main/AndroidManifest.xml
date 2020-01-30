@@ -24,9 +24,9 @@
         </activity>
 
         <provider
-            android:name="com.filehandling.lib.GenericFileProvider"
+            android:name=".GenericFileProvider"
             android:authorities="com.filehandling.lib"
-            android:exported="false"
+            android:exported="true"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
