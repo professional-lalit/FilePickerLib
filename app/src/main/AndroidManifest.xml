@@ -25,7 +25,7 @@
 
         <provider
             android:name=".GenericFileProvider"
-            android:authorities="com.filehandling.lib"
+            android:authorities="${applicationId}.GenericFileProvider"
             android:exported="true"
             android:grantUriPermissions="true">
             <meta-data
