@@ -1,9 +1,11 @@
 package com.filehandling.lib.activities
 
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.view.MenuItem
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -62,19 +64,18 @@ class FileChooserActivity : AppCompatActivity() {
                     ), REQ_FILE_ACCESS
                 )
             } else {
-                mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
-                    supportActionBar?.title = currentDir.name
-                    if (currentDir.isDirectory)
-                        addFragment(currentDir)
-                })
+                observeCurrentDir()
             }
         } else {
-            mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
-                supportActionBar?.title = currentDir.name
-                if (currentDir.isDirectory)
-                    addFragment(currentDir)
-            })
+            observeCurrentDir()
         }
+    }
+
+    private fun observeCurrentDir() {
+        mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
+            if (currentDir.isDirectory)
+                addFragment(currentDir)
+        })
     }
 
 
@@ -87,11 +88,7 @@ class FileChooserActivity : AppCompatActivity() {
         if (permissions.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
             && grantResults[1] == PackageManager.PERMISSION_GRANTED
         ) {
-            mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
-                supportActionBar?.title = currentDir.name
-                if (currentDir.isDirectory)
-                    addFragment(currentDir)
-            })
+            observeCurrentDir()
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(
@@ -113,18 +110,27 @@ class FileChooserActivity : AppCompatActivity() {
             .add(fileContainer.id, dirFragment)
             .addToBackStack(currentDir.name)
             .commit()
+        supportActionBar?.title = currentDir.name
     }
 
     private fun popFragment() {
         supportFragmentManager.popBackStack()
+        Handler().postDelayed({
+            supportActionBar?.title = supportFragmentManager
+                .getBackStackEntryAt(supportFragmentManager.fragments.size - 1)
+                .name
+        }, 200)
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            if (supportFragmentManager.backStackEntryCount == 1)
+            if (supportFragmentManager.backStackEntryCount == 1) {
+                val bundle = Bundle()
+                bundle.putSerializable("file-list", mFolderViewModel.mChosenFileList.value)
+                setResult(Activity.RESULT_OK)
                 finish()
-            else
+            } else
                 popFragment()
             return true
         }
