@@ -20,7 +20,6 @@ const val REQ_FILE_ACCESS = 232
 
 class FileChooserActivity : AppCompatActivity() {
 
-
     private lateinit var fileContainer: FrameLayout
     private lateinit var rootDir: File
     public lateinit var mFolderViewModel: FolderViewModel

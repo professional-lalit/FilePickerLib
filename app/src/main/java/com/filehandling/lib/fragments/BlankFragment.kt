@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.filehandling.lib.FolderViewModel
 
 import com.filehandling.lib.R
-import com.filehandling.lib.activities.MainActivity
+import com.filehandling.lib.activities.FileChooserActivity
 import com.filehandling.lib.adapters.FileAdapter
 import java.io.File
 
@@ -38,7 +38,7 @@ class BlankFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFolderViewModel = (activity as MainActivity).mFolderViewModel
+        mFolderViewModel = (activity as FileChooserActivity).mFolderViewModel
         mDir = arguments?.getSerializable("dir") as File
         setAdapter(view)
         getDirectories()
