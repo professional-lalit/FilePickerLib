@@ -57,11 +57,18 @@ class DirectoryFragment : Fragment() {
 
             when (ops.ordinal) {
                 Ops.ADD.ordinal -> {
-                    mFolderViewModel.mChosenFileList.value?.add(file)
+                    var fileList = mFolderViewModel.mChosenFileList.value
+                    if(fileList == null){
+                        fileList = ArrayList()
+                    }
+                    fileList.add(file)
+                    mFolderViewModel.mChosenFileList.postValue(fileList)
                     file.isSelected = true
                 }
                 Ops.REMOVE.ordinal -> {
-                    mFolderViewModel.mChosenFileList.value?.remove(file)
+                    val fileList = mFolderViewModel.mChosenFileList.value
+                    fileList?.remove(file)
+                    mFolderViewModel.mChosenFileList.postValue(fileList)
                     file.isSelected = false
                 }
                 else -> {

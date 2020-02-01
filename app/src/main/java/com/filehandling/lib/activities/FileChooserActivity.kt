@@ -130,7 +130,7 @@ class FileChooserActivity : AppCompatActivity() {
                 val bundle = Bundle()
                 bundle.putSerializable("file-list", mFolderViewModel.mChosenFileList.value)
                 val intent = Intent()
-                intent.putExtra("file-bundle", "Bundle text test")
+                intent.putExtra("file-bundle", bundle)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             } else

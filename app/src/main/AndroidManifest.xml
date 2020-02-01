@@ -13,15 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
-        <!--<activity
-            android:name=".activities.FileChooserActivity"
-            android:exported="true">
+        <activity android:name=".activities.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </activity>-->
+        </activity>
+
+        <activity
+            android:name=".activities.FileChooserActivity"
+            android:exported="true">
+
+        </activity>
 
         <provider
             android:name=".GenericFileProvider"
