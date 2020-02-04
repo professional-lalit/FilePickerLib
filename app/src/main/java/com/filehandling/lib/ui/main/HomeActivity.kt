@@ -130,8 +130,7 @@ class HomeActivity : AppCompatActivity() {
                 fileList.addAll(bundle?.getSerializable("file-list") as ArrayList<CustomFileModel>)
                 for (file in fileList) {
                     val libFile = LibFile(file.toUri(), true, file.name, 0, 0)
-                    if (!mPageViewModel.fileList.value!!.contains(libFile))
-                        mPageViewModel.addFile(libFile)
+                    mPageViewModel.addFile(libFile)
                 }
                 setResult(resultCode)
             }
