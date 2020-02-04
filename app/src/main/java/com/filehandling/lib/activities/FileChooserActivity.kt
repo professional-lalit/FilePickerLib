@@ -1,12 +1,18 @@
 package com.filehandling.lib.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.provider.MediaStore
+import android.util.Log
 import android.view.MenuItem
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -25,20 +31,15 @@ class FileChooserActivity : AppCompatActivity() {
     private lateinit var rootDir: File
     lateinit var mFolderViewModel: FolderViewModel
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_chooser)
+
         rootDir = Environment.getExternalStorageDirectory()
         initActionBar()
         setViews()
         getPerms()
-    }
-
-    private fun setViews() {
-        fileContainer = findViewById(R.id.file_container)
-        mFolderViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-            .create(FolderViewModel::class.java)
-        mFolderViewModel.mCurrentDir.postValue(CustomFileModel(rootDir.parentFile, rootDir.name))
     }
 
 
@@ -53,6 +54,16 @@ class FileChooserActivity : AppCompatActivity() {
     }
 
 
+    private fun setViews() {
+        fileContainer = findViewById(R.id.file_container)
+        mFolderViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+            .create(FolderViewModel::class.java)
+        mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
+            if (currentDir.isDirectory)
+                addFragment(currentDir)
+        })
+    }
+
     private fun getPerms() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -65,18 +76,16 @@ class FileChooserActivity : AppCompatActivity() {
                     ), REQ_FILE_ACCESS
                 )
             } else {
-                observeCurrentDir()
+                setRootFileDir()
             }
         } else {
-            observeCurrentDir()
+            setRootFileDir()
         }
     }
 
-    private fun observeCurrentDir() {
-        mFolderViewModel.mCurrentDir.observe(this, Observer { currentDir ->
-            if (currentDir.isDirectory)
-                addFragment(currentDir)
-        })
+
+    private fun setRootFileDir() {
+        mFolderViewModel.mCurrentDir.postValue(CustomFileModel(rootDir.parentFile, rootDir.name))
     }
 
 
@@ -89,7 +98,7 @@ class FileChooserActivity : AppCompatActivity() {
         if (permissions.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
             && grantResults[1] == PackageManager.PERMISSION_GRANTED
         ) {
-            observeCurrentDir()
+            setRootFileDir()
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(

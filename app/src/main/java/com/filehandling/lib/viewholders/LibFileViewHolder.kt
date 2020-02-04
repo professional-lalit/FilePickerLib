@@ -1,22 +1,23 @@
 package com.filehandling.lib.viewholders
 
+/**
+ * This file is created by Lalit N. Hajare on 2/4/2020.
+ */
+
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.filehandling.lib.R
 import com.filehandling.lib.fragments.DirectoryFragment
-import com.filehandling.lib.models.CustomFileModel
+import com.filehandling.lib.models.LibFile
 import com.filehandling.lib.utils.DateFormatter
 import com.filehandling.lib.utils.FileIconProvider
 import java.util.*
 
-/**
- * This file is created by Lalit N. Hajare on 1/30/2020.
- */
-class FileViewHolder(
+class LibFileViewHolder(
     itemView: View,
-    private var mCallback: (CustomFileModel, DirectoryFragment.Ops) -> Unit
+    private var mCallback: (LibFile, DirectoryFragment.Ops) -> Unit
 ) :
     ViewHolder(itemView) {
 
@@ -26,7 +27,7 @@ class FileViewHolder(
     private val imgTick = itemView.findViewById<ImageView>(R.id.img_tick)
 
     override fun onBindView(model: Any) {
-        val file = model as CustomFileModel
+        val file = model as LibFile
 
         if (file.isSelected) {
             imgTick.visibility = View.VISIBLE
@@ -40,26 +41,13 @@ class FileViewHolder(
         if (!file.name.isNullOrEmpty()) {
             txtFileName.text = file.name
         }
-        if (!file.list().isNullOrEmpty()) {
-            txtFileDesc.text = "(${file.list()?.size!!})"
-        } else if (file.isDirectory) {
-            txtFileDesc.text = "(0)"
-        } else {
-            txtFileDesc.text = "Last Modified : ${DateFormatter.getStringFromDate(
-                Date(file.lastModified()),
-                DateFormatter.dd_MM_yyyy_HH_mm
-            )}"
-        }
+        txtFileDesc.text = file.size.toString()
 
         itemView.setOnClickListener {
-            if (file.listFiles() != null && file.listFiles()?.isNotEmpty()!! && file.isDirectory) {
-                mCallback(file, DirectoryFragment.Ops.NO_OP)
-            } else if (!file.isDirectory) {
-                if (imgTick.visibility == View.INVISIBLE || imgTick.visibility == View.GONE)
-                    mCallback(file, DirectoryFragment.Ops.ADD)
-                else
-                    mCallback(file, DirectoryFragment.Ops.REMOVE)
-            }
+            if (imgTick.visibility == View.INVISIBLE || imgTick.visibility == View.GONE)
+                mCallback(file, DirectoryFragment.Ops.ADD)
+            else
+                mCallback(file, DirectoryFragment.Ops.REMOVE)
         }
     }
 
