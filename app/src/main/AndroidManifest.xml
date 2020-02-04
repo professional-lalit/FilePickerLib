@@ -23,9 +23,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.filehandling.lib.ui.explorer.FileChooserActivity"
-            android:exported="true"></activity>
+        <activity android:name="com.filehandling.lib.ui.explorer.FileChooserActivity" />
 
         <provider
             android:name=".utils.GenericFileProvider"

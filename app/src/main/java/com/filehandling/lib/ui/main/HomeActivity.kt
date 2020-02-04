@@ -67,7 +67,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    
+
     private fun initSections() {
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.view_pager)

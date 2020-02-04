@@ -1,5 +1,5 @@
-apply plugin: 'com.android.library'
-//apply plugin: 'com.android.application'
+//apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
@@ -10,7 +10,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-//        applicationId "com.filehandling.lib"
+        applicationId "com.filehandling.lib"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
