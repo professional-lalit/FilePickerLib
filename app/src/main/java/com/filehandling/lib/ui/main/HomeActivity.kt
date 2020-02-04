@@ -2,7 +2,9 @@ package com.filehandling.lib.ui.main
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
@@ -19,7 +21,9 @@ import com.filehandling.lib.utils.beginActivityForResult
 
 class HomeActivity : AppCompatActivity() {
 
+    private val REQ_FILE_ACCESS = 23
     private val REQ_FILE_EXPLORER = 78
+
     lateinit var mPageViewModel: PageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +34,7 @@ class HomeActivity : AppCompatActivity() {
             .create(PageViewModel::class.java)
 
         initActionBar()
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tabs)
-        tabs.setupWithViewPager(viewPager)
-
+        getPerms()
     }
 
     private fun initActionBar() {
@@ -45,6 +44,56 @@ class HomeActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowCustomEnabled(true)
             setDisplayShowTitleEnabled(true)
+        }
+    }
+
+
+    private fun getPerms() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(
+                    arrayOf(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        , android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ), REQ_FILE_ACCESS
+                )
+            } else {
+                initSections()
+            }
+        } else {
+            initSections()
+        }
+    }
+
+    private fun initSections() {
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        val viewPager: ViewPager = findViewById(R.id.view_pager)
+        viewPager.adapter = sectionsPagerAdapter
+        val tabs: TabLayout = findViewById(R.id.tabs)
+        tabs.setupWithViewPager(viewPager)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (permissions.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            && grantResults[1] == PackageManager.PERMISSION_GRANTED
+        ) {
+            initSections()
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(
+                    arrayOf(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        , android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ), REQ_FILE_ACCESS
+                )
+            }
         }
     }
 

@@ -103,6 +103,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/filehandling/lib/ui/TestActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/filehandling/lib/ui/main/HomeActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/filehandling/lib/utils/DateFormatter.kt">
           <value>
             <set />
@@ -229,6 +239,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../HelloApp/app/src/main/java/com/helloapp/app/MainActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../HelloApp/app/src/main/res/layout/activity_main.xml">
           <value>
             <set />
           </value>
