@@ -1,4 +1,4 @@
-package com.filehandling.lib.fragments
+package com.filehandling.lib.ui.explorer
 
 
 import android.os.Bundle
@@ -9,11 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.filehandling.lib.FolderViewModel
 
 import com.filehandling.lib.R
-import com.filehandling.lib.activities.FileChooserActivity
-import com.filehandling.lib.adapters.FileAdapter
 import com.filehandling.lib.models.CustomFileModel
 
 
@@ -52,32 +49,33 @@ class DirectoryFragment : Fragment() {
     private fun setAdapter(view: View) {
         recyclerFiles = view.findViewById(R.id.recycler_files)
         recyclerFiles.layoutManager = LinearLayoutManager(context)
-        mAdapter = FileAdapter(mFileList) { file, ops ->
+        mAdapter =
+            FileAdapter(mFileList) { file, ops ->
 
 
-            when (ops.ordinal) {
-                Ops.ADD.ordinal -> {
-                    var fileList = mFolderViewModel.mChosenFileList.value
-                    if(fileList == null){
-                        fileList = ArrayList()
+                when (ops.ordinal) {
+                    Ops.ADD.ordinal -> {
+                        var fileList = mFolderViewModel.mChosenFileList.value
+                        if (fileList == null) {
+                            fileList = ArrayList()
+                        }
+                        fileList.add(file)
+                        mFolderViewModel.mChosenFileList.postValue(fileList)
+                        file.isSelected = true
                     }
-                    fileList.add(file)
-                    mFolderViewModel.mChosenFileList.postValue(fileList)
-                    file.isSelected = true
+                    Ops.REMOVE.ordinal -> {
+                        val fileList = mFolderViewModel.mChosenFileList.value
+                        fileList?.remove(file)
+                        mFolderViewModel.mChosenFileList.postValue(fileList)
+                        file.isSelected = false
+                    }
+                    else -> {
+                        mFolderViewModel.mCurrentDir.postValue(file)
+                    }
                 }
-                Ops.REMOVE.ordinal -> {
-                    val fileList = mFolderViewModel.mChosenFileList.value
-                    fileList?.remove(file)
-                    mFolderViewModel.mChosenFileList.postValue(fileList)
-                    file.isSelected = false
-                }
-                else -> {
-                    mFolderViewModel.mCurrentDir.postValue(file)
-                }
-            }
 
-            mAdapter.notifyItemChanged(mFileList.indexOf(file))
-        }
+                mAdapter.notifyItemChanged(mFileList.indexOf(file))
+            }
         recyclerFiles.adapter = mAdapter
     }
 

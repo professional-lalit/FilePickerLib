@@ -1,4 +1,4 @@
-package com.filehandling.lib
+package com.filehandling.lib.utils
 
 import androidx.core.content.FileProvider
 

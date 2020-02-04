@@ -13,22 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.HomeActivity"
+            android:name="com.filehandling.lib.ui.main.HomeActivity"
             android:theme="@style/AppTheme">
+
+        </activity>
+        <activity android:name=".ui.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TestActivity">
-        </activity>
         <activity
-            android:name=".activities.FileChooserActivity"
+            android:name="com.filehandling.lib.ui.explorer.FileChooserActivity"
             android:exported="true"></activity>
 
         <provider
-            android:name=".GenericFileProvider"
-            android:authorities="com.filehandling.lib.GenericFileProvider"
+            android:name=".utils.GenericFileProvider"
+            android:authorities="com.filehandling.lib.utils.GenericFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -1,4 +1,4 @@
-package com.filehandling.lib.viewholders
+package com.filehandling.lib.common
 
 import android.view.View
 import android.widget.TextView

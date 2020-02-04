@@ -1,12 +1,9 @@
-package com.filehandling.lib.activities.ui.main
+package com.filehandling.lib.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.filehandling.lib.models.CustomFileModel
 import com.filehandling.lib.models.LibFile
 
 class PageViewModel : ViewModel() {

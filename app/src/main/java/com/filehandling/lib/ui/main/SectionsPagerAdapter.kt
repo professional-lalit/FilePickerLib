@@ -1,10 +1,9 @@
-package com.filehandling.lib.activities.ui.main
+package com.filehandling.lib.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.filehandling.lib.R
 
 private val TAB_TITLES = arrayOf(
     "Images",

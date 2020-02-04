@@ -47,6 +47,11 @@ object FileIconProvider {
                 R.drawable.ic_photo
             )!!
 
+        }  else if (name.endsWith(".pdf")) {
+            return ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_pdf
+            )!!
         } else {
             return ContextCompat.getDrawable(
                 context,

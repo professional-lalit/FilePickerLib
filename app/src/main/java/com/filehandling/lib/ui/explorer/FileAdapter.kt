@@ -1,28 +1,24 @@
-package com.filehandling.lib.adapters
+package com.filehandling.lib.ui.explorer
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.filehandling.lib.R
-import com.filehandling.lib.fragments.DirectoryFragment
 import com.filehandling.lib.models.CustomFileModel
-import com.filehandling.lib.models.LibFile
-import com.filehandling.lib.viewholders.FileViewHolder
-import com.filehandling.lib.viewholders.LibFileViewHolder
-import com.filehandling.lib.viewholders.ViewHolder
+import com.filehandling.lib.common.ViewHolder
 
 /**
- * This file is created by Lalit N. Hajare on 2/4/2020.
+ * This file is created by Lalit N. Hajare on 1/30/2020.
  */
-class LibFileAdapter(
-    private var mList: ArrayList<LibFile>,
-    private var mCallback: (LibFile, DirectoryFragment.Ops) -> Unit
+class FileAdapter(
+    private var mList: ArrayList<CustomFileModel>,
+    private var mCallback: (CustomFileModel, DirectoryFragment.Ops) -> Unit
 ) :
     RecyclerView.Adapter<ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return LibFileViewHolder(
+        return FileViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_file_layout,
                 null,

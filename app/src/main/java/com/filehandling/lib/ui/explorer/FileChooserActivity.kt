@@ -1,26 +1,19 @@
-package com.filehandling.lib.activities
+package com.filehandling.lib.ui.explorer
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentResolver
-import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
-import android.provider.MediaStore
-import android.util.Log
 import android.view.MenuItem
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.filehandling.lib.FolderViewModel
 import com.filehandling.lib.R
-import com.filehandling.lib.fragments.DirectoryFragment
 import com.filehandling.lib.models.CustomFileModel
 import java.io.File
 
@@ -112,7 +105,8 @@ class FileChooserActivity : AppCompatActivity() {
     }
 
     private fun addFragment(currentDir: CustomFileModel) {
-        val dirFragment = DirectoryFragment()
+        val dirFragment =
+            DirectoryFragment()
         dirFragment.arguments = Bundle()
         dirFragment.arguments?.putSerializable("dir", currentDir)
         supportFragmentManager.beginTransaction()

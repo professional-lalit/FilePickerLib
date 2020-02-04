@@ -1,4 +1,4 @@
-package com.filehandling.lib.activities.ui.main
+package com.filehandling.lib.ui.main
 
 import android.content.ContentUris
 import android.database.Cursor
@@ -10,13 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.filehandling.lib.R
-import com.filehandling.lib.activities.HomeActivity
-import com.filehandling.lib.adapters.LibFileAdapter
-import com.filehandling.lib.fragments.DirectoryFragment
+import com.filehandling.lib.ui.explorer.DirectoryFragment
 import com.filehandling.lib.models.LibFile
 import com.filehandling.lib.utils.getClassName
 
@@ -76,21 +73,22 @@ class PlaceholderFragment : Fragment() {
     private fun setAdapter(view: View) {
         recyclerFiles = view.findViewById(R.id.recycler_files)
         recyclerFiles.layoutManager = LinearLayoutManager(context)
-        mAdapter = LibFileAdapter(mFileList) { file, ops ->
+        mAdapter =
+            LibFileAdapter(mFileList) { file, ops ->
 
-            when (ops.ordinal) {
-                DirectoryFragment.Ops.ADD.ordinal -> {
-                    file.isSelected = true
-                    pageViewModel.addFile(file)
+                when (ops.ordinal) {
+                    DirectoryFragment.Ops.ADD.ordinal -> {
+                        file.isSelected = true
+                        pageViewModel.addFile(file)
+                    }
+                    DirectoryFragment.Ops.REMOVE.ordinal -> {
+                        file.isSelected = false
+                        pageViewModel.removeFile(file)
+                    }
                 }
-                DirectoryFragment.Ops.REMOVE.ordinal -> {
-                    file.isSelected = false
-                    pageViewModel.removeFile(file)
-                }
+
+                mAdapter.notifyItemChanged(mFileList.indexOf(file))
             }
-
-            mAdapter.notifyItemChanged(mFileList.indexOf(file))
-        }
         recyclerFiles.adapter = mAdapter
     }
 

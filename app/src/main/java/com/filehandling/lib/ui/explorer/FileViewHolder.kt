@@ -1,14 +1,14 @@
-package com.filehandling.lib.viewholders
+package com.filehandling.lib.ui.explorer
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.filehandling.lib.R
-import com.filehandling.lib.fragments.DirectoryFragment
 import com.filehandling.lib.models.CustomFileModel
 import com.filehandling.lib.utils.DateFormatter
 import com.filehandling.lib.utils.FileIconProvider
+import com.filehandling.lib.common.ViewHolder
 import java.util.*
 
 /**
@@ -34,7 +34,15 @@ class FileViewHolder(
             imgTick.visibility = View.INVISIBLE
         }
 
-        imgFile.setImageDrawable(FileIconProvider.getFileIcon(itemView.context, file.name))
+        if (file.isDirectory)
+            imgFile.setImageDrawable(
+                ContextCompat.getDrawable(
+                    itemView.context,
+                    R.drawable.ic_folder
+                )!!
+            )
+        else
+            imgFile.setImageDrawable(FileIconProvider.getFileIcon(itemView.context, file.name))
 
 
         if (!file.name.isNullOrEmpty()) {
